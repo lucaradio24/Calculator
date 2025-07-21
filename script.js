@@ -63,6 +63,9 @@ operatorButtons.forEach(btn => {
 
 const equalButton = document.querySelector('#equal')
 equalButton.addEventListener ('click', () => {
+    if (!num1 || !operator || !num2){
+        return
+    } 
     let a = parseFloat(num1);
     let b = parseFloat(num2);
     const result = operate(operator, a, b);
