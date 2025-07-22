@@ -56,6 +56,12 @@ numberButtons.forEach(btn => {
 const operatorButtons = document.querySelectorAll('.operator')
 operatorButtons.forEach(btn => {
     btn.addEventListener('click', () => {
+        if (num1 && operator && num2){
+            const result = operate(operator, parseFloat(num1), parseFloat(num2))
+            num1 = result.toString();
+            num2 = '';
+            display.textContent = num1;
+        }
         operator = btn.textContent;
         
     })
