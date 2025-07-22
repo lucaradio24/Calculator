@@ -39,10 +39,7 @@ function operate (operator, a, b) {
     }
 }
 
-const numberButtons = document.querySelectorAll('.number')
-numberButtons.forEach(btn => {
-    btn.addEventListener('click', () => {
-        const digit = btn.textContent
+function handleNumber(digit){
         if (resultDisplayed) {
             num1 = num2 = operator = '';
             resultDisplayed = false;
@@ -60,14 +57,23 @@ numberButtons.forEach(btn => {
             num2 += digit;
             display.textContent = num2;
         }
-    })
+    }
+
+
+const numberButtons = document.querySelectorAll('.number')
+numberButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+        handleNumber(btn.textContent)
+})
 })
 
-const operatorButtons = document.querySelectorAll('.operator')
-operatorButtons.forEach(btn => {
-    btn.addEventListener('click', () => {
-        if (!num2){
-            operator = btn.textContent;
+function handleOperator(op){
+    if (resultDisplayed){
+        resultDisplayed = false
+    }
+    
+    if (!num2){
+            operator = op;
             return
         }
         
@@ -77,13 +83,17 @@ operatorButtons.forEach(btn => {
             num2 = '';
             display.textContent = num1;
         }
-        operator = btn.textContent;
-        
+        operator = op;
+}
+
+const operatorButtons = document.querySelectorAll('.operator')
+operatorButtons.forEach(btn => {
+    btn.addEventListener ('click', () => {
+        handleOperator(btn.textContent)
     })
 })
-
-const equalButton = document.querySelector('#equal')
-equalButton.addEventListener ('click', () => {
+    
+function handleEqual (){
     if (!num1 || !operator || !num2){
         return
     } 
@@ -103,23 +113,68 @@ equalButton.addEventListener ('click', () => {
     }
 
     resultDisplayed = true
+}
+
+const equalButton = document.querySelector('#equal')
+equalButton.addEventListener ('click', () => {
+    handleEqual()
 } )
 
-const clearButton = document.querySelector('#clear')
-clearButton.addEventListener('click', () => {
+function handleClear (){
     num1 = '';
     num2 = '';
     operator = '';
     display.textContent = '';
+}
+
+const clearButton = document.querySelector('#clear')
+clearButton.addEventListener('click', () => {
+    handleClear()
 })
 
-const backspaceButton = document.querySelector('#backspace')
-backspaceButton.addEventListener('click', () => {
-    if (operator === ''){
+function handleBackspace (){
+if (operator === ''){
         num1 = num1.slice(0, -1);
         display.textContent = num1;
     } else {
         num2 = num2.slice(0, -1);
         display.textContent = num2;
+    }
+}
+
+const backspaceButton = document.querySelector('#backspace')
+backspaceButton.addEventListener('click', () => {
+    handleBackspace()
+})
+
+document.addEventListener('keydown', e =>{
+    const key = e.key
+    
+
+    if (key === 'Enter') {
+    e.preventDefault()
+    handleEqual()
+    };
+
+    if (/[0-9.]/.test(key)){
+        handleNumber(key)
+    }
+
+    if (['+', '-', '*', '/'].includes(key)){
+        e.preventDefault()
+        const opSymbol = key === '*'
+        ? 'X'
+        : key === '/'
+        ? '÷'
+        : key;
+
+        handleOperator(opSymbol)
+        return
+    } 
+    if (e.key === 'Escape'){
+    handleClear()
+    }
+    if (e.key === 'Backspace'){
+        handleBackspace()
     }
 })
