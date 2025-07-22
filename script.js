@@ -43,9 +43,13 @@ const numberButtons = document.querySelectorAll('.number')
 numberButtons.forEach(btn => {
     btn.addEventListener('click', () => {
         const digit = btn.textContent
-        if (resultDisplayed = true) {
+        if (resultDisplayed) {
             num1 = num2 = operator = '';
             resultDisplayed = false;
+        }
+        
+        if (digit === '.' && display.textContent.includes('.')){
+            return
         }
 
         if (operator === ''){
@@ -107,4 +111,15 @@ clearButton.addEventListener('click', () => {
     num2 = '';
     operator = '';
     display.textContent = '';
+})
+
+const backspaceButton = document.querySelector('#backspace')
+backspaceButton.addEventListener('click', () => {
+    if (operator === ''){
+        num1 = num1.slice(0, -1);
+        display.textContent = num1;
+    } else {
+        num2 = num2.slice(0, -1);
+        display.textContent = num2;
+    }
 })
