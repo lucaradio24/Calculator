@@ -2,6 +2,7 @@
 let num1 = ''
 let num2 = ''
 let operator = ''
+let resultDisplayed = false;
 const display = document.getElementById('display')
 
 function add (a, b) {
@@ -42,6 +43,11 @@ const numberButtons = document.querySelectorAll('.number')
 numberButtons.forEach(btn => {
     btn.addEventListener('click', () => {
         const digit = btn.textContent
+        if (resultDisplayed = true) {
+            num1 = num2 = operator = '';
+            resultDisplayed = false;
+        }
+
         if (operator === ''){
             num1 += digit;
             display.textContent = num1;
@@ -56,6 +62,11 @@ numberButtons.forEach(btn => {
 const operatorButtons = document.querySelectorAll('.operator')
 operatorButtons.forEach(btn => {
     btn.addEventListener('click', () => {
+        if (!num2){
+            operator = btn.textContent;
+            return
+        }
+        
         if (num1 && operator && num2){
             const result = operate(operator, parseFloat(num1), parseFloat(num2))
             num1 = result.toString();
@@ -77,16 +88,17 @@ equalButton.addEventListener ('click', () => {
     const result = operate(operator, a, b);
     if ( typeof result === 'string' ){
         display.textContent = result
-        num1 = '';
-        num2 = '';
-        operator = '';
+        num1 = num2 = operator = '';
         
     } else {
-    display.textContent = result
-    num1 = result.toString();
-    num2 = '';
-    operator = '';
+        const rounded = Number(result.toFixed(2));
+        display.textContent = rounded
+        num1 = result.toString();
+        num2 = '';
+        operator = '';
     }
+
+    resultDisplayed = true
 } )
 
 const clearButton = document.querySelector('#clear')
