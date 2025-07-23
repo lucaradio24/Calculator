@@ -136,10 +136,10 @@ clearButton.addEventListener('click', () => {
 function handleBackspace (){
 if (operator === ''){
         num1 = num1.slice(0, -1);
-        display.textContent = num1;
+        display.textContent = num1 === '' ? '0' : num1;
     } else {
         num2 = num2.slice(0, -1);
-        display.textContent = num2;
+        display.textContent = num2 === '' ? '0' : num2;
     }
 }
 
