@@ -4,6 +4,7 @@ let num2 = ''
 let operator = ''
 let resultDisplayed = false;
 const display = document.getElementById('display')
+display.textContent = '0';
 
 function add (a, b) {
     return a + b
@@ -124,7 +125,7 @@ function handleClear (){
     num1 = '';
     num2 = '';
     operator = '';
-    display.textContent = '';
+    display.textContent = '0';
 }
 
 const clearButton = document.querySelector('#clear')
